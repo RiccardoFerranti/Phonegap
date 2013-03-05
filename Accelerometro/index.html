@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Accelerometro</title>
+		<!-- metadato Viewport -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- importazione Cordova/PhoneGap -->
+		<script src="js/cordova-2.4.0.js"></script>
+
+		<script>
+			//Avvio
+			document.addEventListener("deviceready", function(){
+				var opzioni = {
+					frequency: 100 //intervallo di aggiornamento 100 millesecondi
+				};
+				//Osservo gli aggiornamenti dell'accelerometro
+					navigator.accelerometer.watchAcceleration(successo, errore, opzioni);
+				});
+
+				function errore(){
+					alert("Non posso leggere l'accelerometro");
+				}
+
+				//L'argomento riceve i dati dal sensore
+				function successo(acc){
+					console.log(acc);
+					document.getElementById("valX").innerHTML = acc.x;
+					document.getElementById("valY").innerHTML = acc.y;
+
+					var palla = document.getElementById("palla");
+					//palla.style.top = (acc.x * 0)	+ "px";	
+					//palla.style.left = (acc.y * 0) + "px";	
+
+					var winW = window.innerWidth;
+ 					var winH = window.innerHeight
+ 					var accY = acc.y * 100;
+ 					var accX = acc.x * 100;
+
+ 					corner(accY, accX);
+
+ 					function corner(y , x){
+ 					if (accY==0){
+	 						accY = 50;
+	 						palla.style.top = accY + "px";
+ 						}
+ 					if (accX==0){
+	 						accX = 50;
+	 						palla.style.top = accX + "px";
+ 						}
+ 					}
+ 					
+ 					
+ 					
+ 					palla.style.top = accY + "px";
+ 					palla.style.left = accX + "px";
+ 					/*if(palla.style.top < 0 ){
+ 							console.log("eeeee");
+							palla.style.top = "50%";
+					}
+					palla.style.left = (acc.x * 100) + "px";	
+					if(palla.style.left < 0 ){
+							palla.style.left = "50%";
+					}*/
+				}
+		</script>
+		<style>
+			body{
+				font-family: Helvetica, Arial, sans;
+				font-size: 120%;
+				font-weight: 300px;
+				color: #555;
+			}
+
+			#palla{
+				width: 100px;
+				height: 100px;
+				border-radius: 100px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-top: -50px;
+				margin-left: -50px;
+				box-shadow: 0px 0px 20px rgba(0,0,0,0.3);
+				background-color: #009eee
+			}
+		</style>
+	</head>
+	<body>
+		<h3>Accelerometro</h3>
+		<p>	
+			Valore X <strong id="valX">0</strong> - 
+			Valore Y <strong id="valY">0</strong>
+		</p>	
+		<div id="palla"></div>	
+	</body>
+</html>
+
